@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Beach Eats</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Allura&family=Bangers&family=Bebas+Neue&family=Boogaloo&family=Lilita+One&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Malayalam:wght@100..900&family=Rancho&display=swap" rel="stylesheet">
+<style>
+/* ================= VARIABLES ================= */
+:root {
+  --cream: #fde7c7;
+  --black: #0b0b0b;
+  --red: #e3262a;
+  --white: #ffffff;
+}
+
+/* ================= RESET ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--cream);
+  color: var(--black);
+  overflow-x: hidden;
+}
+
+/* ====================
+       HEADER + HAMBURGER MENU
+    ==================== */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 1.5rem 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0b0b0b;
+}
+
+.logo img {
+  height: 40px;
+  width: auto;
+}
+
+.hamburger {
+  cursor: pointer;
+  width: 22px;
+  height: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+}
+
+.hamburger span {
+  height: 2px;
+  width: 80%;
+  background: #fff;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.hamburger.active span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+.menu-overlay {
+  position: fixed;
+  top: 0; right: 0;
+  width: 38vw;
+  max-width: 420px;
+  min-width: 280px;
+  height: 100%;
+  background: #0b0b0b;
+  z-index: 999;
+  transform: translateX(100%);
+  transition: transform 0.6s cubic-bezier(0.77,0,0.175,1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-overlay.active { transform: translateX(0); }
+
+.menu-content a {
+  display: block;
+  font-size: 2rem;
+  font-weight: 300;
+  color: #fff;
+  text-decoration: none;
+  margin: 1.5rem 0;
+  padding-left: 3rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease;
+}
+
+.menu-overlay.active .menu-content a {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.menu-content a:nth-child(1) { transition-delay: 0.05s; }
+.menu-content a:nth-child(2) { transition-delay: 0.1s; }
+.menu-content a:nth-child(3) { transition-delay: 0.15s; }
+.menu-content a:nth-child(4) { transition-delay: 0.2s; }
+
+.menu-content a:hover { color: #F5C84C; }
+
+@media (max-width: 1024px) {
+  header { padding: 1.5rem 3rem; }
+}
+
+@media (max-width: 768px) {
+  header { padding: 1.2rem 2rem; }
+  .logo img { height: 34px; }
+  .hamburger { width: 20px; height: 13px; }
+  .menu-overlay { width: 80vw; max-width: none; }
+  .menu-content a { font-size: clamp(1.9rem, 7vw, 2.8rem); padding-left: 2.5rem; }
+}
+
+/* ================= HERO ================= */
+.hero {
+  background: #0b0b0b;
+  color: #fde7c7;
+  padding: clamp(96px, 12vw, 140px) 16px 80px;
+}
+
+.hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 48px;
+}
+
+.hero-content h1 {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(3rem, 7vw, 6rem);
+  line-height: 0.95;
+}
+
+.hero-content p {
+  margin: 20px 0 32px;
+  font-size: 1rem;
+  color: #cccccc;
+  max-width: 360px;
+}
+
+.hero-btn {
+  display: inline-block;
+  padding: 14px 36px;
+  border: 2px solid #ffffff;
+  border-radius: 999px;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.25s ease;
+}
+
+.hero-btn:hover {
+  background: #ffffff;
+  color: #000000;
+}
+
+.hero-image img {
+  width: 100%;
+  height: auto;
+  max-height: 420px;
+  object-fit: cover;
+  border-radius: 24px;
+}
+
+@media (max-width: 900px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .hero-content p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-image img {
+    max-height: 300px;
+  }
+}
+
+/* ===== CHALK CTA ===== */
+.chalk-cta {
+  position: relative;
+  display: inline-block;
+  padding: 16px 40px;
+  border: 2px dashed rgba(107, 107, 107, 0.9);
+  border-radius: 999px;
+  color: #a0a0a0;
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.4rem;
+  letter-spacing: 1px;
+  text-decoration: none;
+  background: transparent;
+  opacity: 0.95;
+}
+
+.chalk-cta:hover {
+  opacity: 1;
+  color: wheat;
+}
+
+.chalk-underline {
+  position: absolute;
+  left: 50%;
+  bottom: 6px;
+  width: 70%;
+  transform: translateX(-50%);
+}
+
+.chalk-underline path {
+  fill: none;
+  stroke: white;
+  stroke-width: 2;
+  stroke-dasharray: 220;
+  stroke-dashoffset: 220;
+  transition: stroke-dashoffset 0.6s ease;
+}
+
+/* Chalk texture noise */
+.chalk-cta::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255,255,255,0.05),
+    rgba(255,255,255,0.05) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* ================= STRIP ================= */
+.strip {
+  background: var(--black);
+  color: #fde7c7;
+  padding: 18px;
+  text-align: center;
+  font-family: 'Anton', sans-serif;
+  letter-spacing: 2px;
+  font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+}
+
+/* ================= ABOUT ================= */
+.about {
+  padding: 100px 16px;
+  max-width: 1200px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.about h2 {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  line-height: 1;
+}
+
+.about p {
+  margin-top: 20px;
+  max-width: 420px;
+}
+
+.about img {
+  width: 100%;
+  border-radius: 24px;
+  transform: rotate(-3deg);
+}
+
+/* ================= MENU SECTION ================= */
+.menu-section {
+  background: #0b0b0b;
+  color: #ffffff;
+  padding: clamp(80px, 10vw, 120px) 16px;
+  text-align: center;
+}
+
+.menu-title {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(3rem, 7vw, 4.5rem);
+  margin-bottom: 32px;
+}
+
+/* Tabs */
+/* Tabs container - keep centered */
+.menu-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 16px;               /* Slightly more breathing room */
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+}
+
+/* Individual tab - chalkboard style */
+.tab {
+  position: relative;       /* For pseudo-elements & texture overlay */
+  background: transparent;
+  border: 2px dashed #ffffff50;  /* Chalk-like dashed border */
+  color: #ffffffb9;
+  font-family: 'Caveat', cursive;
+  font-size: 1.2rem;        /* Handwritten fonts look best larger */
+  font-weight: 500;         /* Bolder variant for chalk emphasis */
+  padding: 8px 22px;
+  border-radius: 999px;     /* Keep pill shape */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.4); /* Subtle depth like chalk shadow */
+  overflow: hidden;         /* Clip texture if needed */
+}
+
+/* Active / Hover state - cream background like chalk dust highlight */
+.tab.active,
+.tab:hover {
+  background: #00000000;      /* Your --cream color */
+  color: #fde7c7;           /* Dark text for contrast */
+  border-color: #fde7c7c4;    /* Match border to bg for seamless look */
+
+}
+
+/* Chalk texture noise overlay (same as your chalk-cta) */
+.tab::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255,255,255,0.08),
+    rgba(255,255,255,0.08) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  pointer-events: none;        /* Subtle on dark bg */
+  border-radius: inherit;
+}
+
+/* Make texture stronger on hover/active */
+.tab.active::after,
+.tab:hover::after {
+  opacity: 1;
+}
+
+
+
+.tab:hover::before,
+.tab.active::before {
+  opacity: 0.6;
+}
+
+/* Panels */
+.menu-panel {
+  display: none;
+}
+
+.menu-panel.active {
+  display: block;
+}
+
+/* Grid */
+.menu-grid {
+  max-width: 1200px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 32px;
+}
+
+/* Card */
+.menu-card {
+  background: #111;
+  border-radius: 20px;
+  overflow: hidden;
+  text-align: left;
+  transition: transform 0.25s ease;
+}
+
+.menu-card:hover {
+  transform: translateY(-6px);
+}
+
+.menu-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.menu-card h3 {
+  font-family: "Boogaloo", sans-serif;
+  font-size: 2rem;           /* Bebas looks best a bit larger */
+  color: #ffeed4;
+  margin: 12px 16px 4px;
+  letter-spacing: 1px;
+}
+.menu-card p {
+  margin: 0 16px 20px;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+@media (max-width: 600px) {
+  .menu-card img {
+    height: 180px;
+  }
+}
+
+/* ================= TESTIMONIALS ================= */
+.testimonials {
+  background: var(--red);
+  padding: 100px 16px;
+  text-align: center;
+}
+
+.testimonials h2 {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  color: white;
+}
+
+.review-grid {
+  margin-top: 40px;
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.review {
+  background: var(--cream);
+  padding: 28px;
+  max-width: 260px;
+  border-radius: 16px;
+  font-weight: 600;
+}
+
+/* ================= VISIT ================= */
+.visit {
+  background: var(--black);
+  color: white;
+  padding: 120px 16px;
+  text-align: center;
+}
+
+.visit h2 {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(3rem, 8vw, 4.5rem);
+}
+
+/* ================= FOOTER ================= */
+footer {
+  background: var(--black);
+  color: #aaa;
+  padding: 40px 16px;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 900px) {
+  .about {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .about p {
+    margin-inline: auto;
+  }
+}
+
+/* ====================
+       FOOTER
+    ==================== */
+    .site-footer {
+      background: #000000;
+      padding: 80px 6% 30px;
+      color: #fff;
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 1.2fr 2fr;
+      gap: 60px;
+      margin-bottom: 60px;
+    }
+
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;          /* same spacing feeling as before */
+    }
+
+    .footer-logo {
+      display: block;
+      text-decoration: none;
+    }
+
+    .logo-img {
+      height: 38px;          /* ← main control knob - adjust this value */
+      width: auto;
+      max-width: 240px;      /* prevent it from getting ridiculously wide on big screens */
+      display: block;
+    }
+
+    .footer-brand p {
+      opacity: 0.8;
+      max-width: 360px;
+    }
+
+    .footer-links {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+    }
+
+    .footer-column h4 {
+      font-size: 14px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      opacity: 0.9;
+    }
+
+    .footer-column a {
+      display: block;
+      color: white;
+      opacity: 0.7;
+      margin-bottom: 12px;
+      text-decoration: none;
+      transition: opacity 0.3s;
+    }
+
+    .footer-column a:hover { opacity: 1; }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.15);
+      padding-top: 20px;
+      text-align: center;
+      font-size: 13px;
+      opacity: 0.6;
+    }
+
+    /* Optional: if your logo has very different proportions */
+    .logo-img.tall-logo {
+      height: 48px;          /* example for taller logos */
+    }
+
+    /* For very small screens - make logo a bit smaller */
+    @media (max-width: 480px) {
+      .logo-img {
+        height: 32px;
+      }
+    }
+
+    /* ====================
+       RESPONSIVE
+    ==================== */
+    @media (max-width: 1024px) {
+      header { padding: 1.2rem 2rem; }
+      .menu-content a { font-size: 2.4rem; }
+      .services-list { grid-template-columns: repeat(2, 1fr); }
+      .release-link { flex: 0 0 calc(33.333% - 16px); }
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 2rem 1.5rem; }
+      .logo img { height: 32px; }
+      .hamburger { width: 20px; height: 13px; }
+      .menu-overlay { width: 75vw; max-width: none; }
+      .menu-content a { font-size: clamp(1.8rem, 6vw, 2.4rem); }
+      .mute-btn { bottom: 30px; right: 20px; padding: 8px 12px; font-size: 13px; }
+      .about-container { flex-direction: column; text-align: center; }
+      .services-section { padding: 4rem 1.5rem; }
+      .services-frame { height: auto; border-radius: 28px; }
+      .services-inner { padding: 2.5rem 2rem; }
+      .services-list { grid-template-columns: 1fr; }
+      .service-btn { opacity: 1; transform: none; }
+      .release-link { flex: 0 0 calc(50% - 12px); }
+      .nav-btn { width: 48px; height: 48px; font-size: 1.3rem; }
+    }
+
+    @media (max-width: 600px) {
+      .release-link { flex: 0 0 100%; }
+      .carousel-controls { gap: 1.2rem; }
+      .works-grid { grid-template-columns: 1fr; }
+      .work-card { height: 300px; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .footer-links { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .footer-links { grid-template-columns: 1fr; }
+    }
+
+</style>
+</head>
+
+<body>
+
+<!-- Header -->
+<header>
+  <div class="logo">
+    <a href="/" aria-label="Beach Eats Home">
+      <img src="https://res.cloudinary.com/dgxb8m8lr/image/upload/v1767191543/Logo_BeachBeats_hvthta.png" alt="Beach Eats Logo">
+    </a>
+  </div>
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</header>
+
+<!-- Menu Overlay -->
+<div class="menu-overlay" id="menuOverlay">
+  <nav class="menu-content">
+    <a href="index.html">Home</a>
+<a href="bbrecords.html">BB Records</a>
+<a href="bbsmiles.html">BB Smiles</a>
+<a href="bbfashion.html">BB Fashion</a>
+<a href="contacts.html">RR Pure Solutions</a>
+  </nav>
+</div>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <h1>BURGER LOVE,<br>ALWAYS.</h1>
+      <p>Juicy burgers made fresh, Beach Eats style.</p>
+      <a href="#" class="chalk-cta">
+        ORDER NOW
+        <svg class="chalk-underline" viewBox="0 0 200 20">
+          <path d="M5 12 Q40 6 80 12 T155 12" />
+        </svg>
+      </a>
+    </div>
+
+    <div class="hero-image">
+      <img
+        src="https://images.unsplash.com/photo-1550547660-d9450f859349"
+        alt="Signature Burger"
+      />
+    </div>
+  </div>
+</section>
+
+<div class="strip">
+  WOW • MMM • JUICY • TASTY • WOW
+</div>
+
+<section class="about reveal">
+  <div>
+    <h2>FROM OUR GRILL<br>TO YOUR HEART</h2>
+    <p>Beach Eats serves bold, juicy burgers inspired by classic fast-food culture — made fresh and full of flavor.</p>
+  </div>
+  <img src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d" alt="Burger preparation">
+</section>
+
+<section class="menu-section">
+  <h2 class="menu-title">OUR MENU</h2>
+
+  <div class="menu-tabs">
+    <button class="tab active" data-target="burgers">Burgers</button>
+    <button class="tab" data-target="sides">Sides</button>
+    <button class="tab" data-target="drinks">Drinks</button>
+  </div>
+
+  <!-- PANELS -->
+  <div class="menu-panels">
+
+    <!-- BURGERS - 3 items -->
+    <div class="menu-panel active" id="burgers">
+      <div class="menu-grid">
+        <article class="menu-card">
+          <img src="https://thumbs.dreamstime.com/b/mouthwatering-burger-dripping-sauce-cheese-juicy-patty-black-plate-close-up-delicious-featuring-beef-melted-set-395349543.jpg" alt="Classic Smash" />
+          <h3>Classic Smash</h3>
+          <p>Double beef patties, melted cheddar, house sauce, toasted bun.</p>
+        </article>
+
+        <article class="menu-card">
+          <img src="https://thumbs.dreamstime.com/z/double-cheese-burger-melting-crispy-bun-juicy-meat-patty-close-up-shot-delicious-fast-food-isolated-white-background-395880283.jpg" alt="Beach Special" />
+          <h3>Beach Special</h3>
+          <p>Juicy single patty, caramelized onions, special sauce, brioche bun.</p>
+        </article>
+
+        <article class="menu-card">
+          <img src="https://thumbs.dreamstime.com/b/classic-american-burger-features-juicy-grilled-beef-patty-melted-cheese-fresh-red-tomato-crisp-green-lettuce-sesame-bun-delicious-407318749.jpg" alt="Cheese Lover" />
+          <h3>Cheese Lover</h3>
+          <p>Double cheese, extra melted cheddar & american, lettuce, tomato.</p>
+        </article>
+      </div>
+    </div>
+
+    <!-- SIDES - 3 items -->
+    <div class="menu-panel" id="sides">
+      <div class="menu-grid">
+        <article class="menu-card">
+          <img src="https://thumbs.dreamstime.com/b/premium-loaded-melted-cheese-french-fries-potato-chips-topped-bacon-jalapeno-gourmet-street-food-upscale-fast-branding-430756778.jpg" alt="Loaded Fries" />
+          <h3>Loaded Fries</h3>
+          <p>Crispy fries topped with melted cheese, bacon bits & jalapeños.</p>
+        </article>
+
+        <article class="menu-card">
+          <img src="https://thumbs.dreamstime.com/b/golden-crispy-onion-rings-stack-white-background-fried-food-snack-appetizer-crunchy-tasty-fast-fresh-dish-classic-american-meal-384879342.jpg" alt="Onion Rings" />
+          <h3>Onion Rings</h3>
+          <p>Thick-cut onions, golden crispy batter, served with dipping sauce.</p>
+        </article>
+
+        <article class="menu-card">
+          <img src="https://thumbs.dreamstime.com/b/delicious-loaded-fries-bacon-cheese-sour-cream-wooden-platter-overhead-shot-plate-chives-golden-brown-428268676.jpg" alt="Crispy Bites" />
+          <h3>Crispy Chicken Bites</h3>
+          <p>Tender chicken pieces, crunchy coating, served hot & juicy.</p>
+        </article>
+      </div>
+    </div>
+
+    <!-- DRINKS - 3 items -->
+    <div class="menu-panel" id="drinks">
+      <div class="menu-grid">
+        <article class="menu-card">
+          <img src="https://exoticwhip.com/wp-content/uploads/perfecting-the-recipe-1024x538.jpg" alt="Milkshake" />
+          <h3>Vanilla Milkshake</h3>
+          <p>Thick, creamy vanilla blended with ice cream, topped with whipped cream.</p>
+        </article>
+
+        <article class="menu-card">
+          <img src="http://myvega.com/cdn/shop/articles/Cherry-Milkshake.jpg?v=1586816384" alt="Cherry Shake" />
+          <h3>Cherry Milkshake</h3>
+          <p>Classic vanilla base swirled with sweet cherry flavor & chunks.</p>
+        </article>
+
+        <article class="menu-card">
+          <img src="https://thumbs.dreamstime.com/b/classic-cola-glass-ice-cubes-condensation-drops-refreshing-cold-drink-123456789.jpg" alt="Classic Cola" />
+          <h3>Classic Cola</h3>
+          <p>Ice-cold cola served in a chilled glass with plenty of ice.</p>
+        </article>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="testimonials reveal">
+  <h2>WHAT OUR CUSTOMERS SAY</h2>
+  <div class="review-grid">
+    <div class="review">“Better than McDonald’s.”</div>
+    <div class="review">“Juicy and addictive.”</div>
+    <div class="review">“Perfect beach burger.”</div>
+  </div>
+</section>
+
+<section class="visit reveal">
+  <h2>COME<br>VISIT US</h2>
+</section>
+
+<footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <a href="/" class="footer-logo">
+            <img src="https://res.cloudinary.com/dgxb8m8lr/image/upload/v1767191543/Logo_BeachBeats_hvthta.png" alt="Beach Beats" class="logo-img">
+          </a>
+
+        </div>
+        <div class="footer-links">
+          <div class="footer-column">
+            <h4>Explore</h4>
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#latest-releases">Latest Releases</a>
+            <a href="#Featured-Work">Featured Works</a>
+          </div>
+          <div class="footer-column">
+            <h4>Brands</h4>
+            <a href="#">BB Records</a>
+            <a href="#">BB Smiles</a>
+            <a href="#">BB Fashion</a>
+            <a href="#">Each Eats</a>
+            <a href="#">RR Pure Solutions</a>
+          </div>
+          <div class="footer-column">
+            <h4>Connect</h4>
+            <a href="https://www.instagram.com/_beach_beats/">Instagram</a>
+            <a href="https://www.youtube.com/@BEACHBEATSENTERTAINMENTS">YouTube</a>
+            <a href="#">LinkedIn</a>
+            <a href="mailto:beachbeats2025@gmail.com">Email Us</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Beach Beats • Inspired by the ocean</span>
+      </div>
+    </footer>
+
+<script>
+// Hamburger menu
+document.addEventListener('DOMContentLoaded', () => {
+  const hamburger = document.getElementById('hamburger');
+  const menuOverlay = document.getElementById('menuOverlay');
+
+  if (!hamburger || !menuOverlay) return;
+
+  function toggleMenu() {
+    hamburger.classList.toggle('active');
+    menuOverlay.classList.toggle('active');
+  }
+
+  hamburger.addEventListener('click', toggleMenu);
+
+  // Close menu when clicking a link
+  document.querySelectorAll('.menu-content a').forEach(link => {
+    link.addEventListener('click', () => {
+      toggleMenu();
+    });
+  });
+});
+
+// Menu tab switching
+const tabs = document.querySelectorAll('.tab');
+const panels = document.querySelectorAll('.menu-panel');
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const target = tab.dataset.target;
+
+    tabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+
+    panels.forEach(panel => {
+      panel.classList.toggle('active', panel.id === target);
+    });
+  });
+});
+
+// Chalk CTA animation
+const chalkBtn = document.querySelector('.chalk-cta');
+const chalkPath = chalkBtn?.querySelector('path');
+
+if (chalkBtn && chalkPath) {
+  chalkBtn.addEventListener('mouseenter', () => {
+    chalkPath.style.strokeDashoffset = '0';
+  });
+
+  chalkBtn.addEventListener('mouseleave', () => {
+    chalkPath.style.strokeDashoffset = '220';
+  });
+}
+
+// Simple scroll reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(40px)';
+  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  observer.observe(el);
+});
+</script>
+
+</body>
+</html>

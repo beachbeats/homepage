@@ -1,0 +1,835 @@
+<!doctype html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BB Smiles — A Beach Beats Service</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Bebas+Neue&family=Lilita+One&family=Noto+Sans+Malayalam:wght@100..900&display=swap');
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: white;
+    }
+    
+    * {
+      font-family: 'DM Sans', sans-serif;
+    }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate-fade-in {
+      animation: fadeInUp 0.8s ease-out forwards;
+      opacity: 0;
+    }
+    
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.5s; }
+    .delay-6 { animation-delay: 0.6s; }
+    
+    /* ====================
+       HEADER + HAMBURGER MENU
+    ==================== */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1.5rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0, 0, 0, 0) 100%);
+    }
+
+    .logo img {
+      height: 40px;
+      width: auto;
+    }
+
+    .hamburger {
+      cursor: pointer;
+      width: 22px;
+      height: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.3s ease;
+    }
+
+    .hamburger span {
+      height: 2px;
+      width: 80%;
+      background: #fff;
+      transition: all 0.3s ease;
+      transform-origin: center;
+    }
+
+    .hamburger.active span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+    .menu-overlay {
+      position: fixed;
+      top: 0; right: 0;
+      width: 38vw;
+      max-width: 420px;
+      min-width: 280px;
+      height: 100%;
+      background: #000;
+      z-index: 999;
+      transform: translateX(100%);
+      transition: transform 0.6s cubic-bezier(0.77,0,0.175,1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .menu-overlay.active { transform: translateX(0); }
+
+    .menu-content a {
+      display: block;
+      font-size: 2rem;
+      font-weight: 300;
+      color: #fff;
+      text-decoration: none;
+      margin: 1.5rem 0;
+      padding-left: 3rem;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+
+    .menu-overlay.active .menu-content a {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .menu-content a:nth-child(1) { transition-delay: 0.05s; }
+    .menu-content a:nth-child(2) { transition-delay: 0.1s; }
+    .menu-content a:nth-child(3) { transition-delay: 0.15s; }
+    .menu-content a:nth-child(4) { transition-delay: 0.2s; }
+
+    .menu-content a:hover { color: #F5C84C; }
+
+    @media (max-width: 1024px) {
+      header { padding: 1.5rem 3rem; }
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 1.2rem 2rem; }
+      .logo img { height: 34px; }
+      .hamburger { width: 20px; height: 13px; }
+      .menu-overlay { width: 80vw; max-width: none; }
+      .menu-content a { font-size: clamp(1.9rem, 7vw, 2.8rem); padding-left: 2.5rem; }
+    }
+
+.hero-frame-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 680px;
+  max-height: 1100px;
+  background: #000;
+  margin-top: 0;
+  padding-top: 80px;           /* breathing room for fixed navbar */
+  overflow: hidden;
+}
+
+/* ── Only on desktop/large screens: move the whole frame upward ── */
+@media (min-width: 1025px) {
+  .hero-frame-container {
+    margin-top: -50px;         /* ← main adjustment - tune this value */
+    /* Try values between -35px and -80px depending on your navbar height */
+  }
+}
+
+.hero-thick-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  padding: 60px;               /* thick frame - main desktop value */
+  border-radius: 48px;
+  overflow: hidden;
+}
+
+.hero-inner {
+  width: 100%;
+  height: 100%;
+  background: #111;
+  border-radius: 36px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── VIDEO STYLING ──────────────────────────────────────── */
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Fallback image (shown while video loads or on error) */
+.hero-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Overlay with gradient + content */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.411) 100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 5rem 6rem 6rem;
+  z-index: 2;
+  text-align: center;
+}
+
+/* ────────────── RESPONSIVE BREAKPOINTS ─────────────────── */
+
+@media (max-width: 1200px) {
+  .hero-thick-frame {
+    padding: 50px;
+    border-radius: 42px;
+  }
+  .hero-inner {
+    border-radius: 32px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .hero-frame-container {
+    padding-top: 80px;
+    min-height: 720px;
+    /* No negative margin here → original mobile/tablet behavior preserved */
+  }
+  .hero-thick-frame {
+    padding: 40px;
+    border-radius: 36px;
+  }
+  .hero-inner {
+    border-radius: 28px;
+  }
+  .hero-overlay {
+    padding: 4rem 4rem 5rem;
+  }
+}
+
+/* ── Tablets & smaller landscape ────────────────────────── */
+@media (max-width: 896px) and (orientation: portrait),
+       (max-width: 1024px) and (orientation: landscape) {
+  .hero-frame-container {
+    height: 85vh;
+    min-height: 640px;
+    max-height: 900px;
+  }
+  .hero-thick-frame {
+    padding: 32px;
+    border-radius: 32px;
+  }
+  .hero-inner {
+    border-radius: 24px;
+  }
+}
+
+/* ── Mobile phones ──────────────────────────────────────── */
+@media (max-width: 768px) {
+  .hero-frame-container {
+    padding-top: 70px;
+    height: 80vh;
+    min-height: 520px;
+    max-height: 780px;
+  }
+
+  .hero-thick-frame {
+    padding: 20px;
+    border-radius: 28px;
+  }
+
+  .hero-inner {
+    border-radius: 22px;
+  }
+
+  .hero-overlay {
+    padding: 3rem 2.5rem 4.5rem;
+  }
+
+  .hero-video {
+    object-fit: cover;
+    object-position: center 30%;   /* preserved - little bias upward */
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-frame-container {
+    padding-top: 65px;
+    height: 90vh;
+    min-height: 480px;
+  }
+
+  .hero-thick-frame {
+    padding: 16px;
+    border-radius: 24px;
+  }
+
+  .hero-inner {
+    border-radius: 18px;
+  }
+
+  .hero-overlay {
+    padding: 2.5rem 2rem 5rem;
+  }
+
+  .hero-video {
+    object-position: center 25%;   /* preserved */
+  }
+}
+
+
+/* Hero Overlay Container */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;     /* move content to bottom */
+  padding: 0 5vw 8vh;        /* bottom breathing space */
+  color: #ffffff;
+}
+
+/* Content Width Control */
+.hero-content {
+  max-width: 640px;
+}
+
+#hero-heading {
+  font-family: Bebas Neue, sans-serif;
+  font-size: clamp(3.5rem, 8vw, 5rem);           
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: 2PX;
+  margin: 0;
+}
+
+/* Yellow Accent Line */
+.hero-accent {
+  display: block;
+  width: 52px;
+  height: 3px;
+  background-color: #f5c84c;
+  margin: 16px 0 20px 0;
+}
+
+/* Subheading */
+#hero-subheading {
+  font-size: clamp(0.95rem, 1.3vw, 1.2rem);
+  line-height: 1.6;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+}
+
+/* ====================
+       FOOTER
+    ==================== */
+    .site-footer {
+      background: #000000;
+      padding: 80px 6% 30px;
+      color: #fff;
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 1.2fr 2fr;
+      gap: 60px;
+      margin-bottom: 60px;
+    }
+
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;          /* same spacing feeling as before */
+    }
+
+    .footer-logo {
+      display: block;
+      text-decoration: none;
+    }
+
+    .logo-img {
+      height: 38px;          /* ← main control knob - adjust this value */
+      width: auto;
+      max-width: 240px;      /* prevent it from getting ridiculously wide on big screens */
+      display: block;
+    }
+
+    .footer-brand p {
+      opacity: 0.8;
+      max-width: 360px;
+    }
+
+    .footer-links {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+    }
+
+    .footer-column h4 {
+      font-size: 14px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      opacity: 0.9;
+    }
+
+    .footer-column a {
+      display: block;
+      color: white;
+      opacity: 0.7;
+      margin-bottom: 12px;
+      text-decoration: none;
+      transition: opacity 0.3s;
+    }
+
+    .footer-column a:hover { opacity: 1; }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.15);
+      padding-top: 20px;
+      text-align: center;
+      font-size: 13px;
+      opacity: 0.6;
+    }
+
+    /* Optional: if your logo has very different proportions */
+    .logo-img.tall-logo {
+      height: 48px;          /* example for taller logos */
+    }
+
+    /* For very small screens - make logo a bit smaller */
+    @media (max-width: 480px) {
+      .logo-img {
+        height: 32px;
+      }
+    }
+
+    /* ====================
+       RESPONSIVE
+    ==================== */
+    @media (max-width: 1024px) {
+      header { padding: 1.2rem 2rem; }
+      .menu-content a { font-size: 2.4rem; }
+      .services-list { grid-template-columns: repeat(2, 1fr); }
+      .release-link { flex: 0 0 calc(33.333% - 16px); }
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 2rem 1.5rem; }
+      .logo img { height: 32px; }
+      .hamburger { width: 20px; height: 13px; }
+      .menu-overlay { width: 75vw; max-width: none; }
+      .menu-content a { font-size: clamp(1.8rem, 6vw, 2.4rem); }
+      .mute-btn { bottom: 30px; right: 20px; padding: 8px 12px; font-size: 13px; }
+      .about-container { flex-direction: column; text-align: center; }
+      .services-section { padding: 4rem 1.5rem; }
+      .services-frame { height: auto; border-radius: 28px; }
+      .services-inner { padding: 2.5rem 2rem; }
+      .services-list { grid-template-columns: 1fr; }
+      .service-btn { opacity: 1; transform: none; }
+      .release-link { flex: 0 0 calc(50% - 12px); }
+      .nav-btn { width: 48px; height: 48px; font-size: 1.3rem; }
+    }
+
+    @media (max-width: 600px) {
+      .release-link { flex: 0 0 100%; }
+      .carousel-controls { gap: 1.2rem; }
+      .works-grid { grid-template-columns: 1fr; }
+      .work-card { height: 300px; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .footer-links { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .footer-links { grid-template-columns: 1fr; }
+    }
+
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+</head>
+<body class="h-full bg-black text-white overflow-auto">
+  <div class="w-full min-h-full">
+
+    <!-- Header -->
+    <header>
+      <div class="logo">
+        <a href="/" aria-label="Beach Beats Home">
+          <img src="https://res.cloudinary.com/dgxb8m8lr/image/upload/v1767191543/Logo_BeachBeats_hvthta.png" alt="Beach Beats Logo">
+        </a>
+      </div>
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </header>
+
+    <!-- Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay">
+      <nav class="menu-content">
+        <a href="index.html">Home</a>
+        <a href="bbrecords.html">BB Records</a>
+        <a href="eacheats.html">Each Eats</a>
+        <a href="bbfashion.html">BB Fashion</a>
+        <a href="contacts.html">RR Pure Solutions</a>
+      </nav>
+    </div>
+
+    <!-- Thicker Framed Hero Section -->
+    <section class="hero-frame-container">
+      <div class="hero-thick-frame">
+        <div class="hero-inner">
+          <!-- You can choose image or video -->
+          <!-- Option 1: Video (recommended for dynamic feel) -->
+          <video autoplay muted loop playsinline class="hero-video">
+            <source src="https://res.cloudinary.com/dgxb8m8lr/video/upload/v1768721989/0118_2_sdzzq6.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+
+          <!-- Option 2: Static image (uncomment if you prefer) -->
+          <!-- <img class="hero-image" src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1920&q=90" alt="Celebration moment"> -->
+
+          <!-- Hero Text Overlay -->
+<div class="hero-overlay">
+  <div class="hero-content">
+    <h1 id="hero-heading">BB Smiles</h1>
+
+
+
+    <p id="hero-subheading">
+      A Beach Beats service focused on joy, celebrations, and community
+    </p>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── All content below this point remains 100% unchanged ── -->
+
+    <!-- Introduction Section -->
+    <section class="w-full py-16 sm:py-20 md:py-24 px-6 sm:px-8 md:px-16 lg:px-24">
+      <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 sm:gap-12 md:gap-20">
+        <div>
+          <h2 id="intro-headline" class="text-xl sm:text-2xl md:text-3xl font-medium animate-fade-in">Why BB Smiles</h2>
+        </div>
+        <div>
+          <p id="intro-text" class="text-white/70 text-base sm:text-lg leading-relaxed animate-fade-in delay-1">We believe in the quiet power of a smile, Doesn't matter if your'e far away, we'll make sure your loved one's are cheering on the special day.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- What We Do Section -->
+    <section class="w-full py-16 sm:py-20 md:py-24 px-6 sm:px-8 md:px-16 lg:px-24 border-t border-white/10">
+      <div class="max-w-6xl mx-auto">
+        <h2 id="services-heading" class="text-xl sm:text-2xl md:text-3xl font-medium mb-12 sm:mb-14 md:mb-16 animate-fade-in">What we do</h2>
+        <div class="space-y-0">
+          <div class="py-6 sm:py-8 border-b border-white/10 animate-fade-in delay-1">
+            <div class="flex items-start gap-3 sm:gap-4">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#F5C84C] mt-2 sm:mt-3 flex-shrink-0"></span>
+              <div>
+                <h3 class="text-lg sm:text-xl font-medium mb-2">Community celebrations</h3>
+                <p class="text-white/60 text-sm sm:text-base">Bringing neighborhoods together through thoughtfully crafted gatherings and shared moments</p>
+              </div>
+            </div>
+          </div>
+          <div class="py-6 sm:py-8 border-b border-white/10 animate-fade-in delay-2">
+            <div class="flex items-start gap-3 sm:gap-4"><span class="w-1.5 h-1.5 rounded-full bg-[#F5C84C] mt-2 sm:mt-3 flex-shrink-0"></span>
+              <div>
+                <h3 class="text-lg sm:text-xl font-medium mb-2">Surprise moments and smile campaigns</h3>
+                <p class="text-white/60 text-sm sm:text-base">Creating unexpected joy through acts of kindness that brighten everyday life</p>
+              </div>
+            </div>
+          </div>
+          <div class="py-6 sm:py-8 border-b border-white/10 animate-fade-in delay-3">
+            <div class="flex items-start gap-3 sm:gap-4"><span class="w-1.5 h-1.5 rounded-full bg-[#F5C84C] mt-2 sm:mt-3 flex-shrink-0"></span>
+              <div>
+                <h3 class="text-lg sm:text-xl font-medium mb-2">Social outreach initiatives</h3>
+                <p class="text-white/60 text-sm sm:text-base">Connecting with communities who need support, presence, and celebration</p>
+              </div>
+            </div>
+          </div>
+          <div class="py-6 sm:py-8 border-b border-white/10 animate-fade-in delay-4">
+            <div class="flex items-start gap-3 sm:gap-4"><span class="w-1.5 h-1.5 rounded-full bg-[#F5C84C] mt-2 sm:mt-3 flex-shrink-0"></span>
+              <div>
+                <h3 class="text-lg sm:text-xl font-medium mb-2">Purpose-led collaborations</h3>
+                <p class="text-white/60 text-sm sm:text-base">Partnering with organizations and individuals who share our belief in human connection</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Moments & Stories Section -->
+    <section class="w-full py-16 sm:py-20 md:py-24 px-6 sm:px-8 md:px-16 lg:px-24">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-xl sm:text-2xl md:text-3xl font-medium mb-12 sm:mb-14 md:mb-16 animate-fade-in">Moments & stories</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+          <div class="animate-fade-in delay-1"><img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=600&q=80" alt="Family gathering outdoors" loading="lazy" onerror="this.src=''; this.alt='Image unavailable'; this.style.backgroundColor='#1a1a1a';" class="w-full aspect-square object-cover grayscale hover:grayscale-0 transition-all duration-500">
+            <p class="text-white/50 text-xs sm:text-sm mt-2 sm:mt-3">Community picnic, Summer 2024</p>
+          </div>
+          <div class="animate-fade-in delay-2"><img src="https://images.unsplash.com/photo-1523301343968-6a6ebf63c672?w=600&q=80" alt="People laughing together" loading="lazy" onerror="this.src=''; this.alt='Image unavailable'; this.style.backgroundColor='#1a1a1a';" class="w-full aspect-square object-cover grayscale hover:grayscale-0 transition-all duration-500">
+            <p class="text-white/50 text-xs sm:text-sm mt-2 sm:mt-3">Neighborhood celebration</p>
+          </div>
+          <div class="animate-fade-in delay-2"><img src="https://images.unsplash.com/photo-1523301343968-6a6ebf63c672?w=600&q=80" alt="People laughing together" loading="lazy" onerror="this.src=''; this.alt='Image unavailable'; this.style.backgroundColor='#1a1a1a';" class="w-full aspect-square object-cover grayscale hover:grayscale-0 transition-all duration-500">
+            <p class="text-white/50 text-xs sm:text-sm mt-2 sm:mt-3">Neighborhood celebration</p>
+          </div>
+          <div class="animate-fade-in delay-2"><img src="https://images.unsplash.com/photo-1523301343968-6a6ebf63c672?w=600&q=80" alt="People laughing together" loading="lazy" onerror="this.src=''; this.alt='Image unavailable'; this.style.backgroundColor='#1a1a1a';" class="w-full aspect-square object-cover grayscale hover:grayscale-0 transition-all duration-500">
+            <p class="text-white/50 text-xs sm:text-sm mt-2 sm:mt-3">Neighborhood celebration</p>
+          </div>
+          <div class="animate-fade-in delay-2"><img src="https://images.unsplash.com/photo-1523301343968-6a6ebf63c672?w=600&q=80" alt="People laughing together" loading="lazy" onerror="this.src=''; this.alt='Image unavailable'; this.style.backgroundColor='#1a1a1a';" class="w-full aspect-square object-cover grayscale hover:grayscale-0 transition-all duration-500">
+            <p class="text-white/50 text-xs sm:text-sm mt-2 sm:mt-3">Neighborhood celebration</p>
+          </div>
+          <div class="animate-fade-in delay-2"><img src="https://images.unsplash.com/photo-1523301343968-6a6ebf63c672?w=600&q=80" alt="People laughing together" loading="lazy" onerror="this.src=''; this.alt='Image unavailable'; this.style.backgroundColor='#1a1a1a';" class="w-full aspect-square object-cover grayscale hover:grayscale-0 transition-all duration-500">
+            <p class="text-white/50 text-xs sm:text-sm mt-2 sm:mt-3">Neighborhood celebration</p>
+          </div>
+          <!-- remaining gallery items... -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Connection to Beach Beats Section -->
+    <section class="w-full py-16 sm:py-20 md:py-24 px-6 sm:px-8 md:px-16 lg:px-24 border-t border-white/10">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 id="connection-heading" class="text-xl sm:text-2xl md:text-3xl font-medium mb-6 sm:mb-8 animate-fade-in">Part of Beach Beats</h2>
+        <p id="connection-text" class="text-white/70 text-base sm:text-lg leading-relaxed animate-fade-in delay-1">BB Smiles is an extension of what Beach Beats has always believed—that creativity, culture, and purpose are inseparable. While Beach Beats creates the rhythm, BB Smiles creates the moments where that rhythm becomes human connection. Together, they form an ecosystem rooted in authenticity and the belief that meaningful work can also be joyful work.</p>
+      </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="w-full py-20 sm:py-24 md:py-32 px-6 sm:px-8 md:px-16 lg:px-24">
+      <div class="max-w-2xl mx-auto text-center">
+        <p id="cta-text" class="text-lg sm:text-xl md:text-2xl text-white/90 mb-8 sm:mb-10 animate-fade-in">Interested in creating something meaningful together?</p>
+        <button id="cta-button" class="border border-[#F5C84C] text-[#F5C84C] px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base font-medium hover:bg-[#F5C84C] hover:text-black transition-colors duration-300 animate-fade-in delay-1">Get in touch</button>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <a href="/" class="footer-logo">
+            <img src="https://res.cloudinary.com/dgxb8m8lr/image/upload/v1767191543/Logo_BeachBeats_hvthta.png" alt="Beach Beats" class="logo-img">
+          </a>
+          <p>Music, celebrations, community impact, fashion, and consulting — built with purpose and long-term value.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-column">
+            <h4>Explore</h4>
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#latest-releases">Latest Releases</a>
+            <a href="#Featured-Work">Featured Works</a>
+          </div>
+          <div class="footer-column">
+            <h4>Brands</h4>
+            <a href="#">BB Records</a>
+            <a href="#">BB Smiles</a>
+            <a href="#">BB Fashion</a>
+            <a href="#">Each Eats</a>
+            <a href="#">RR Pure Solutions</a>
+          </div>
+          <div class="footer-column">
+            <h4>Connect</h4>
+            <a href="https://www.instagram.com/_beach_beats/">Instagram</a>
+            <a href="https://www.youtube.com/@BEACHBEATSENTERTAINMENTS">YouTube</a>
+            <a href="#">LinkedIn</a>
+            <a href="mailto:beachbeats2025@gmail.com">Email Us</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Beach Beats • Inspired by the ocean</span>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const defaultConfig = {
+      logo_text: 'BB Smiles',
+      nav_link_1: 'About',
+      nav_link_2: 'What we do',
+      nav_link_3: 'Stories',
+      nav_link_4: 'Beach Beats',
+      nav_link_5: 'Contact',
+      hero_heading: 'BB Smiles',
+      hero_subheading: 'A Beach Beats service focused on joy, celebrations, and community',
+      intro_headline: 'What BB Smiles is about',
+      intro_text: 'We believe in the quiet power of a smile. BB Smiles exists to create moments of genuine connection—whether through community gatherings, unexpected acts of kindness, or collaborations that bring people together. It\'s not about grand gestures; it\'s about the warmth found in shared experiences and the joy that ripples outward when people feel seen.',
+      services_heading: 'What we do',
+      connection_heading: 'Part of Beach Beats',
+      connection_text: 'BB Smiles is an extension of what Beach Beats has always believed—that creativity, culture, and purpose are inseparable. While Beach Beats creates the rhythm, BB Smiles creates the moments where that rhythm becomes human connection. Together, they form an ecosystem rooted in authenticity and the belief that meaningful work can also be joyful work.',
+      cta_text: 'Interested in creating something meaningful together?',
+      cta_button: 'Get in touch',
+      background_color: '#000000',
+      text_color: '#ffffff',
+      accent_color: '#F5C84C',
+      secondary_text_color: '#b3b3b3',
+      border_color: '#262626'
+    };
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      const hamburger = document.getElementById('hamburger');
+      const menuOverlay = document.getElementById('menuOverlay');
+      const menuLinks = document.querySelectorAll('.menu-link');
+
+      if (!hamburger || !menuOverlay) return;
+
+      function toggleMenu() {
+        hamburger.classList.toggle('active');
+        menuOverlay.classList.toggle('active');
+      }
+
+      hamburger.addEventListener('click', toggleMenu);
+
+      menuLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          toggleMenu();
+        });
+      });
+    });
+
+    async function onConfigChange(config) {
+      document.getElementById('logo-text').textContent = config.logo_text || defaultConfig.logo_text;
+      document.getElementById('nav-link-1').textContent = config.nav_link_1 || defaultConfig.nav_link_1;
+      document.getElementById('nav-link-2').textContent = config.nav_link_2 || defaultConfig.nav_link_2;
+      document.getElementById('nav-link-3').textContent = config.nav_link_3 || defaultConfig.nav_link_3;
+      document.getElementById('nav-link-4').textContent = config.nav_link_4 || defaultConfig.nav_link_4;
+      document.getElementById('nav-link-5').textContent = config.nav_link_5 || defaultConfig.nav_link_5;
+      document.getElementById('hero-heading').textContent = config.hero_heading || defaultConfig.hero_heading;
+      document.getElementById('hero-subheading').textContent = config.hero_subheading || defaultConfig.hero_subheading;
+      document.getElementById('intro-headline').textContent = config.intro_headline || defaultConfig.intro_headline;
+      document.getElementById('intro-text').textContent = config.intro_text || defaultConfig.intro_text;
+      document.getElementById('services-heading').textContent = config.services_heading || defaultConfig.services_heading;
+      document.getElementById('connection-heading').textContent = config.connection_heading || defaultConfig.connection_heading;
+      document.getElementById('connection-text').textContent = config.connection_text || defaultConfig.connection_text;
+      document.getElementById('cta-text').textContent = config.cta_text || defaultConfig.cta_text;
+      document.getElementById('cta-button').textContent = config.cta_button || defaultConfig.cta_button;
+
+      const bgColor = config.background_color || defaultConfig.background_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const accentColor = config.accent_color || defaultConfig.accent_color;
+      const secondaryTextColor = config.secondary_text_color || defaultConfig.secondary_text_color;
+      const borderColor = config.border_color || defaultConfig.border_color;
+
+      document.body.style.backgroundColor = bgColor;
+      document.body.style.color = textColor;
+      document.getElementById('menuOverlay').style.backgroundColor = bgColor;
+
+      document.querySelectorAll('.bg-\\[\\#F5C84C\\]').forEach(el => el.style.backgroundColor = accentColor);
+      document.querySelectorAll('.text-\\[\\#F5C84C\\]').forEach(el => el.style.color = accentColor);
+      document.querySelectorAll('.border-\\[\\#F5C84C\\]').forEach(el => el.style.borderColor = accentColor);
+      document.querySelectorAll('.border-\\[\\#F5C84C\\]\\/30').forEach(el => el.style.borderColor = accentColor + '4d');
+
+      document.querySelectorAll('.text-white\\/70, .text-white\\/60, .text-white\\/50, .text-white\\/40').forEach(el => {
+        el.style.color = secondaryTextColor;
+      });
+
+      document.querySelectorAll('.border-white\\/10').forEach(el => {
+        el.style.borderColor = borderColor;
+      });
+      
+      const menuNavLinks = document.querySelectorAll('.menu-content a');
+      menuNavLinks.forEach(link => {
+        link.style.color = textColor;
+        link.addEventListener('mouseenter', () => link.style.color = accentColor);
+        link.addEventListener('mouseleave', () => link.style.color = textColor);
+      });
+
+      const ctaBtn = document.getElementById('cta-button');
+      ctaBtn.style.borderColor = accentColor;
+      ctaBtn.style.color = accentColor;
+      ctaBtn.onmouseenter = () => {
+        ctaBtn.style.backgroundColor = accentColor;
+        ctaBtn.style.color = bgColor;
+      };
+      ctaBtn.onmouseleave = () => {
+        ctaBtn.style.backgroundColor = 'transparent';
+        ctaBtn.style.color = accentColor;
+      };
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          { get: () => config.background_color || defaultConfig.background_color, set: v => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+          { get: () => config.border_color || defaultConfig.border_color, set: v => { config.border_color = v; window.elementSdk.setConfig({ border_color: v }); } },
+          { get: () => config.text_color || defaultConfig.text_color, set: v => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+          { get: () => config.accent_color || defaultConfig.accent_color, set: v => { config.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); } },
+          { get: () => config.secondary_text_color || defaultConfig.secondary_text_color, set: v => { config.secondary_text_color = v; window.elementSdk.setConfig({ secondary_text_color: v }); } }
+        ],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['logo_text', config.logo_text || defaultConfig.logo_text],
+        ['nav_link_1', config.nav_link_1 || defaultConfig.nav_link_1],
+        ['nav_link_2', config.nav_link_2 || defaultConfig.nav_link_2],
+        ['nav_link_3', config.nav_link_3 || defaultConfig.nav_link_3],
+        ['nav_link_4', config.nav_link_4 || defaultConfig.nav_link_4],
+        ['nav_link_5', config.nav_link_5 || defaultConfig.nav_link_5],
+        ['hero_heading', config.hero_heading || defaultConfig.hero_heading],
+        ['hero_subheading', config.hero_subheading || defaultConfig.hero_subheading],
+        ['intro_headline', config.intro_headline || defaultConfig.intro_headline],
+        ['intro_text', config.intro_text || defaultConfig.intro_text],
+        ['services_heading', config.services_heading || defaultConfig.services_heading],
+        ['connection_heading', config.connection_heading || defaultConfig.connection_heading],
+        ['connection_text', config.connection_text || defaultConfig.connection_text],
+        ['cta_text', config.cta_text || defaultConfig.cta_text],
+        ['cta_button', config.cta_button || defaultConfig.cta_button]
+      ]);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+</body>
+</html>

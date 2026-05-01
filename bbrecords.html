@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Beach Beats Records — Sunset Grooves & Deep Vibes</title>
+  <meta name="description" content="Independent record label | Deep House, Balearic, Chillout, Tropical House — New waves every full moon"/>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+    :root {
+      --bg-dark: #0a1215;
+      --bg-darker: #05090b;
+      --gold: #ffdd57;
+      --gold-dark: #e6c03f;
+      --text: #f5f6f5;
+      --text-light: #a0b0b5;
+      --header-height: 90px; /* base value - will be adjusted with clamp */
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg-dark);
+      color: var(--text);
+      font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      line-height: 0.9;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+     /* ====================
+       HEADER + HAMBURGER MENU
+    ==================== */
+    /* ====================
+       HEADER + HAMBURGER MENU
+    ==================== */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1.5rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0, 0, 0, 0) 100%);
+    }
+
+    .logo img {
+      height: 40px;
+      width: auto;
+    }
+
+    .hamburger {
+      cursor: pointer;
+      width: 22px;
+      height: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.3s ease;
+    }
+
+    .hamburger span {
+      height: 2px;
+      width: 80%;
+      background: #fff;
+      transition: all 0.3s ease;
+      transform-origin: center;
+    }
+
+    .hamburger.active span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+    .menu-overlay {
+      position: fixed;
+      top: 0; right: 0;
+      width: 38vw;
+      max-width: 420px;
+      min-width: 280px;
+      height: 100%;
+      background: #131313;
+      z-index: 999;
+      transform: translateX(100%);
+      transition: transform 0.6s cubic-bezier(0.77,0,0.175,1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .menu-overlay.active { transform: translateX(0); }
+
+    .menu-content a {
+      display: block;
+      font-size: 2rem;
+      font-weight: 300;
+      color: #fff;
+      text-decoration: none;
+      margin: 1.5rem 0;
+      padding-left: 3rem;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+
+    .menu-overlay.active .menu-content a {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .menu-content a:nth-child(1) { transition-delay: 0.05s; }
+    .menu-content a:nth-child(2) { transition-delay: 0.1s; }
+    .menu-content a:nth-child(3) { transition-delay: 0.15s; }
+    .menu-content a:nth-child(4) { transition-delay: 0.2s; }
+
+    .menu-content a:hover { color: #F5C84C; }
+
+    @media (max-width: 1024px) {
+      header { padding: 1.5rem 3rem; }
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 1.2rem 2rem; }
+      .logo img { height: 34px; }
+      .hamburger { width: 20px; height: 13px; }
+      .menu-overlay { width: 80vw; max-width: none; }
+      .menu-content a { font-size: clamp(1.9rem, 7vw, 2.8rem); padding-left: 2.5rem; }
+    }
+
+:root {
+  --bg-dark:#05090b;
+  --bg-mid:#0a1215;
+  --gold:#ffdd57;
+  --cyan:#4dfff3;
+  --text:#f5f6f5;
+  --muted:#8fa1a7;
+}
+
+/* =====================================================
+   DESIGN TOKENS
+===================================================== */
+:root {
+  --bg-dark: #05090b;
+  --bg-mid: #0a1215;
+  --bg-darker: #000306;
+  --gold: #ffffffcb;
+  --text: #f5f6f5;
+  --text-light: #a0b0b5;
+}
+
+/* =====================================================
+   RESET + BASE
+===================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-dark);
+  color: var(--text);
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* =====================================================
+   TYPOGRAPHY SYSTEM
+===================================================== */
+h1, h2, h3 {
+  font-family: 'Syne', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: clamp(2.8rem, 6vw, 5.5rem);
+  font-weight: 800;
+  line-height: 1.05;
+}
+
+h2 {
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+h3 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+p {
+  font-size: 1.1rem;
+  color: var(--text-light);
+}
+
+/* =====================================================
+   LAYOUT UTILITIES
+===================================================== */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 1000;
+  padding: 1.4rem 6vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);
+}
+
+.logo img {
+  height: 38px;
+}
+
+.hamburger {
+  width: 22px;
+  height: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.hamburger span {
+  height: 2px;
+  background: white;
+  width: 100%;
+}
+
+/* =====================================================
+   HERO
+===================================================== */
+.bb-hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: clamp(3rem, 6vw, 6rem);
+  background: #000;
+}
+
+.bb-hero-inner {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: clamp(2rem, 5vw, 6rem);
+  align-items: center;
+}
+
+.bb-hero-eyebrow {
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #ffecac;
+  opacity: 0.85;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.bb-hero-actions {
+  margin-top: 2rem;
+}
+
+.bb-btn {
+  padding: 0.85rem 1.8rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  border: 1px solid rgba(255,255,255,0.4);
+}
+
+.bb-btn:hover {
+  border-color: white;
+}
+
+
+/* =====================================================
+   HERO
+===================================================== */
+.bb-hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background: #000;
+  padding: clamp(4rem, 8vw, 8rem) 0;           /* vertical padding only */
+  position: relative;
+  overflow: hidden;
+}
+
+.bb-hero-inner {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 5vw, 60px);           /* safe side padding */
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: clamp(2rem, 5vw, 6rem);
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Mobile first approach for visuals ── */
+.bb-hero-visuals {
+  position: relative;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;               /* portrait feel on mobile */
+  max-width: 480px;                   /* cap for larger phones/tablets */
+  margin: 2rem auto 0;
+}
+
+/* Main large image */
+.bb-image-large {
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #111;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+}
+
+.bb-image-large img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Small overlapping image - hidden on mobile */
+.bb-image-small {
+  display: none;                      /* ← hidden by default on mobile */
+  position: absolute;
+  width: 38%;
+  left: -12%;
+  top: 12%;
+  z-index: 3;
+  border-radius: 12px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+}
+
+/* Very small screens — make image edge-to-edge */
+@media (max-width: 480px) {
+  .bb-hero-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .bb-hero-visuals {
+    width: 100%;
+    max-width: 92%;
+    margin: 2rem auto 0;
+    aspect-ratio: 4 / 5;
+  }
+
+  .bb-image-large {
+    border-radius: 16px;
+  }
+
+  .bb-image-small {
+    display: block;
+    width: 30%;
+    left: 6%;
+    top: 6%;
+  }
+}
+
+
+
+/* Tablet & small desktop - keep nice side padding + visible small image */
+@media (min-width: 481px) and (max-width: 900px) {
+  .bb-hero-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .bb-hero-visuals {
+    max-width: 520px;
+    margin: 3rem auto 0;
+  }
+
+  .bb-image-small {
+    display: block;                   /* show overlapping image again */
+  }
+}
+
+/* Desktop - original layout with both images */
+@media (min-width: 901px) {
+  .bb-image-small {
+    display: block;
+  }
+
+  .bb-hero-visuals {
+    aspect-ratio: auto;
+  }
+}
+
+    /* ── SECTION TITLES ─────────────────────────────── */
+    .section-title {
+      font-size: clamp(4rem, 10vw, 9.5rem);
+      font-weight: 800;
+      margin-bottom: 1.6rem;
+      letter-spacing: -0.02em;
+    }
+
+    .section-subtitle {
+      font-size: 1.9rem;
+      color: var(--text-light);
+      margin-bottom: 5rem;
+      max-width: 760px;
+    }
+
+/* =====================================================
+   LATEST RELEASE
+===================================================== */
+    .latest {
+      padding: 160px 0 200px;
+      background: linear-gradient(to bottom, var(--bg-dark), #0a1a22);
+    }
+
+    .release-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 90px;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .release-grid {
+        grid-template-columns: 1fr;
+        gap: 70px;
+      }
+    }
+
+    .cover-big {
+  width: 100%;
+  aspect-ratio: 4 / 5;               /* slightly portrait – feels more like vinyl/artwork */
+  max-width: 380px;                   /* even more restrained */
+  object-fit: cover;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 
+    0 20px 60px rgba(0,0,0,0.6),
+    0 0 0 1px rgba(255,221,87,0.08) inset;
+  margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+  .cover-big {
+    max-width: 340px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cover-big {
+    max-width: 280px;
+    aspect-ratio: 1 / 1.15;         /* almost square on very small screens */
+  }
+}
+    .release-info h2 {
+      font-size: clamp(3.6rem, 7vw, 6.5rem);
+      margin-bottom: 0.6em;
+    }
+
+    .release-meta {
+      display: flex;
+      gap: 2.4rem;
+      margin-bottom: 0.1rem;
+      color: var(--text-light);
+      font-size: 1.2rem;
+    }
+
+    .play-btn {
+  --size: clamp(64px, 12vw, 100px);
+
+  width: var(--size);
+  height: var(--size);
+  aspect-ratio: 1 / 1;
+
+  background: #ffd001;
+  color: #000;
+  border-radius: 50%;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  margin: clamp(0.9rem, 2.5vw, 1.25rem) 0;
+
+
+  cursor: pointer;
+  transition:
+    box-shadow 0.45s ease,
+    transform 0.35s ease;
+}
+
+/* Hover / focus (desktop & keyboard) */
+.play-btn:hover,
+.play-btn:focus-visible {
+
+  box-shadow: 0 0 70px rgba(255, 221, 87, 0.55);
+}
+
+/* Touch devices – soften glow */
+@media (hover: none) {
+  .play-btn:hover {
+    transform: none;
+    box-shadow: 0 0 36px rgba(255, 221, 87, 0.35);
+  }
+}
+
+
+    /* ── RELEASES GRID ──────────────────────────────── */
+    .releases {
+      padding: 140px 0;
+      background: var(--bg-darker);
+    }
+
+    .releases-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 48px;
+    }
+
+    .release-card {
+      background: rgba(255,255,255,0.03);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .release-card:hover {
+      transform: translateY(-16px);
+      border-color: var(--gold);
+      box-shadow: 0 40px 90px rgba(0,0,0,0.6);
+    }
+
+    .release-card img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+    }
+
+    .card-info {
+      padding: 1.8rem;
+    }
+
+    .card-title {
+      font-size: 1.65rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+    }
+
+    .card-artist {
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+/* ====================
+       FOOTER
+    ==================== */
+    .site-footer {
+      background: #000000;
+      padding: 80px 6% 30px;
+      color: #fff;
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 1.2fr 2fr;
+      gap: 60px;
+      margin-bottom: 60px;
+    }
+
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;          /* same spacing feeling as before */
+    }
+
+    .footer-logo {
+      display: block;
+      text-decoration: none;
+    }
+
+    .logo-img {
+      height: 38px;          /* ← main control knob - adjust this value */
+      width: auto;
+      max-width: 240px;      /* prevent it from getting ridiculously wide on big screens */
+      display: block;
+    }
+
+    .footer-brand p {
+      opacity: 0.8;
+      max-width: 360px;
+    }
+
+    .footer-links {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+    }
+
+    .footer-column h4 {
+      font-size: 14px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      opacity: 0.9;
+    }
+
+    .footer-column a {
+      display: block;
+      color: white;
+      opacity: 0.7;
+      margin-bottom: 12px;
+      text-decoration: none;
+      transition: opacity 0.3s;
+    }
+
+    .footer-column a:hover { opacity: 1; }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.15);
+      padding-top: 20px;
+      text-align: center;
+      font-size: 13px;
+      opacity: 0.6;
+    }
+
+    /* Optional: if your logo has very different proportions */
+    .logo-img.tall-logo {
+      height: 48px;          /* example for taller logos */
+    }
+
+    /* For very small screens - make logo a bit smaller */
+    @media (max-width: 480px) {
+      .logo-img {
+        height: 32px;
+      }
+    }
+
+    /* ====================
+       RESPONSIVE
+    ==================== */
+    @media (max-width: 1024px) {
+      header { padding: 1.2rem 2rem; }
+      .menu-content a { font-size: 2.4rem; }
+      .services-list { grid-template-columns: repeat(2, 1fr); }
+      .release-link { flex: 0 0 calc(33.333% - 16px); }
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 2rem 1.5rem; }
+      .logo img { height: 32px; }
+      .hamburger { width: 20px; height: 13px; }
+      .menu-overlay { width: 75vw; max-width: none; }
+      .menu-content a { font-size: clamp(1.8rem, 6vw, 2.4rem); }
+      .mute-btn { bottom: 30px; right: 20px; padding: 8px 12px; font-size: 13px; }
+      .about-container { flex-direction: column; text-align: center; }
+      .services-section { padding: 4rem 1.5rem; }
+      .services-frame { height: auto; border-radius: 28px; }
+      .services-inner { padding: 2.5rem 2rem; }
+      .services-list { grid-template-columns: 1fr; }
+      .service-btn { opacity: 1; transform: none; }
+      .release-link { flex: 0 0 calc(50% - 12px); }
+      .nav-btn { width: 48px; height: 48px; font-size: 1.3rem; }
+    }
+
+    @media (max-width: 600px) {
+      .release-link { flex: 0 0 100%; }
+      .carousel-controls { gap: 1.2rem; }
+      .works-grid { grid-template-columns: 1fr; }
+      .work-card { height: 300px; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .footer-links { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .footer-links { grid-template-columns: 1fr; }
+    }
+
+  </style>
+</head>
+
+<body>
+
+<!-- Header -->
+    <header>
+      <div class="logo">
+        <a href="/" aria-label="Beach Beats Home">
+          <img src="https://res.cloudinary.com/dgxb8m8lr/image/upload/v1767191543/Logo_BeachBeats_hvthta.png" alt="Beach Beats Logo">
+        </a>
+      </div>
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </header>
+
+    <!-- Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay">
+      <nav class="menu-content">
+        <a href="index.html">Home</a>
+<a href="bbsmiles.html">BB Smiles</a>
+<a href="eacheats.html">Each Eats</a>
+<a href="bbfashion.html">BB Fashion</a>
+<a href="contacts.html">RR Pure Solutions</a>
+      </nav>
+    </div>
+
+<!-- ====== HERO ====== -->
+
+<section class="bb-hero">
+  <div class="bb-hero-inner">
+
+    <!-- Visuals FIRST in HTML → will be on top in mobile -->
+    <div class="bb-hero-visuals">
+      <div class="bb-image bb-image-small">
+        <img src="" alt="">
+      </div>
+
+      <div class="bb-image bb-image-large">
+        <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d" alt="">
+        
+      </div>
+    </div>
+
+    <!-- Text SECOND in HTML → will be at bottom in mobile -->
+    <div class="bb-hero-content">
+      <span class="bb-hero-eyebrow">Beach Beats Records</span>
+      <h1>Music for<br>everyone.</h1>
+
+      <div class="bb-hero-actions">
+        <a href="#" class="bb-btn">Learn More</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Hero end -->
+
+  <!-- LATEST RELEASE -->
+<section class="latest">
+  <div class="container">
+    <div class="release-grid">
+
+      <img src="https://images.unsplash.com/photo-1617791160505-6f00504e3519" class="cover-big" alt="">
+
+      <div>
+        <span class="bb-hero-eyebrow">Latest Wave</span>
+        <h2>Midnight Tide</h2>
+        <p style="color:var(--gold); font-size:1.4rem;">feat. Luca Santini</p>
+
+        <div class="release-meta">
+          <span>12 tracks</span>
+          <span>•</span>
+          <span>July 2025</span>
+        </div>
+
+        <div class="play-btn">▶</div>
+
+        <p>
+          A balearic journey through moonlit beaches, warm pads,
+          rolling percussion and golden-hour melodies.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+  <!-- MORE RELEASES -->
+  <section class="releases">
+    <div class="container">
+      <h2>Latest
+        Releases</h2>
+      <p class="section-subtitle">Recent waves still moving the ocean</p>
+
+      <div class="releases-grid">
+        <a href="#" class="release-card">
+          <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1974&auto=format&fit=crop" alt="Release">
+          <div class="card-info">
+            <div class="card-title">Golden Hour Drift</div>
+            <div class="card-artist">Mira Sol</div>
+          </div>
+        </a>
+
+        <a href="#" class="release-card">
+          <img src="https://res.cloudinary.com/dgxb8m8lr/image/upload/v1768747262/pexels-cottonbro-5650790_d57kg3.jpg" alt="Release">
+          <div class="card-info">
+            <div class="card-title">Salt & Bass</div>
+            <div class="card-artist">Kael Ocean</div>
+          </div>
+        </a>
+
+        <a href="#" class="release-card">
+          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1970&auto=format&fit=crop" alt="Release">
+          <div class="card-info">
+            <div class="card-title">Velvet Sunset</div>
+            <div class="card-artist">Tropical Suite</div>
+          </div>
+        </a>
+
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <!-- Footer -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <a href="/" class="footer-logo">
+            <img src="https://res.cloudinary.com/dgxb8m8lr/image/upload/v1767191543/Logo_BeachBeats_hvthta.png" alt="Beach Beats" class="logo-img">
+          </a>
+          <p>Music, celebrations, community impact, fashion, and consulting — built with purpose and long-term value.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-column">
+            <h4>Explore</h4>
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#latest-releases">Latest Releases</a>
+            <a href="#Featured-Work">Featured Works</a>
+          </div>
+          <div class="footer-column">
+            <h4>Brands</h4>
+            <a href="#">BB Records</a>
+            <a href="#">BB Smiles</a>
+            <a href="#">BB Fashion</a>
+            <a href="#">Each Eats</a>
+            <a href="#">RR Pure Solutions</a>
+          </div>
+          <div class="footer-column">
+            <h4>Connect</h4>
+            <a href="https://www.instagram.com/_beach_beats/">Instagram</a>
+            <a href="https://www.youtube.com/@BEACHBEATSENTERTAINMENTS">YouTube</a>
+            <a href="#">LinkedIn</a>
+            <a href="mailto:beachbeats2025@gmail.com">Email Us</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Beach Beats • Inspired by the ocean</span>
+      </div>
+    </footer>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const hamburger = document.getElementById('hamburger');
+      const menuOverlay = document.getElementById('menuOverlay');
+      const menuLinks = document.querySelectorAll('.menu-link');
+
+      if (!hamburger || !menuOverlay) return;
+
+      function toggleMenu() {
+        hamburger.classList.toggle('active');
+        menuOverlay.classList.toggle('active');
+      }
+
+      hamburger.addEventListener('click', toggleMenu);
+
+      menuLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          toggleMenu();
+        });
+      });
+    });
+
+</script>
+</body>
+</html>

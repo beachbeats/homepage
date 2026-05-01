@@ -1,0 +1,1187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beach Beats - Music Inspired by Nature</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Bebas+Neue&family=Lilita+One&family=Noto+Sans+Malayalam:wght@100..900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Allura&family=Bangers&family=Bebas+Neue&family=Lilita+One&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Malayalam:wght@100..900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Allura&family=Bangers&family=Bebas+Neue&family=Lilita+One&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Malayalam:wght@100..900&family=Rancho&display=swap');
+  </style>
+
+  <style>
+    /* ====================
+       GLOBAL / BASE STYLES
+    ==================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #000;
+      color: #fff;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+    }
+
+    .main-wrapper {
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+    }
+
+    /* ====================
+       HEADER + HAMBURGER MENU
+    ==================== */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1.5rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(to bottom, #00000000 0%, transparent 100%);
+    }
+
+    .logo img {
+      height: 40px;
+      width: auto;
+    }
+
+    .hamburger {
+      cursor: pointer;
+      width: 22px;
+      height: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.3s ease;
+    }
+
+    .hamburger span {
+      height: 2px;
+      width: 80%;
+      background: #fff;
+      transition: all 0.3s ease;
+      transform-origin: center;
+    }
+
+    .hamburger.active span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+    .menu-overlay {
+      position: fixed;
+      top: 0; right: 0;
+      width: 38vw;
+      max-width: 420px;
+      min-width: 280px;
+      height: 100%;
+      background: #000;
+      z-index: 999;
+      transform: translateX(100%);
+      transition: transform 0.6s cubic-bezier(0.77,0,0.175,1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .menu-overlay.active { transform: translateX(0); }
+
+    .menu-content a {
+      display: block;
+      font-size: 2rem;
+      font-weight: 300;
+      color: #fff;
+      text-decoration: none;
+      margin: 1.5rem 0;
+      padding-left: 3rem;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+
+    .menu-overlay.active .menu-content a {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .menu-content a:nth-child(1) { transition-delay: 0.05s; }
+    .menu-content a:nth-child(2) { transition-delay: 0.1s; }
+    .menu-content a:nth-child(3) { transition-delay: 0.15s; }
+    .menu-content a:nth-child(4) { transition-delay: 0.2s; }
+
+    .menu-content a:hover { color: #ffec83; }
+
+    /* ====================
+       HERO SECTION
+    ==================== */
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: left;
+      overflow: hidden;
+    }
+
+    .hero-background {
+      position: absolute;
+      inset: 0;
+    }
+
+    .hero-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-background::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(10,10,10,0) 0%, rgba(10,10,10,0.3) 100%);
+      z-index: 1;
+    }
+
+    .hero-card {
+      position: relative;
+      z-index: 10;
+      max-width: 700px;
+      padding: 4rem;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-title {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 5rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      line-height: 1;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(to right, #ffffff, #ffffff);
+      -webkit-background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 3rem;
+      line-height: 1.6;
+    }
+
+    .mute-btn {
+      position: fixed;
+      bottom: 50px;
+      right: 60px;
+      z-index: 1000;
+      background: rgba(0,0,0,0.4);
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .mute-btn:hover { background: rgba(0,0,0,0.75); }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      z-index: 20;
+    }
+
+    .mouse {
+      width: 28px;
+      height: 46px;
+      border: 2px solid rgba(255,255,255,0.8);
+      border-radius: 20px;
+      position: relative;
+    }
+
+    .wheel {
+      width: 4px;
+      height: 8px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 4px;
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: scrollWheel 1.6s infinite;
+    }
+
+    @keyframes scrollWheel {
+      0%   { transform: translate(-50%,0); opacity: 0; }
+      30%  { opacity: 1; }
+      100% { transform: translate(-50%,14px); opacity: 0; }
+    }
+
+    /* ====================
+       ABOUT SECTION – DARK VERSION
+    ==================== */
+    .about-bucket-style.dark-version {
+      background: #000000;
+      color: #f5f5f5;
+      padding: clamp(4rem, 8vw, 10rem) 5%;
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .about-container {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: clamp(3rem, 6vw, 8rem);
+      width: 100%;
+    }
+
+    .about-statement {
+      flex: 1;
+      position: relative;
+      text-align: center;
+    }
+
+    .about-statement h1 {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: clamp(4.5rem, 11vw, 13rem);
+      font-weight: 900;
+      line-height: 0.88;
+      letter-spacing: -0.04em;
+      color: #ffffff;
+      margin: 0 0 1rem 0;
+      text-transform: uppercase;
+      text-shadow: 0 4px 25px rgba(0, 0, 0, 0);
+    }
+
+    .hanging-character {
+      position: absolute;
+      bottom: -25%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: clamp(90px, 18vw, 140px);
+      height: auto;
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.7));
+    }
+
+    .character-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+    }
+
+    .about-description {
+      flex: 1;
+      max-width: 580px;
+    }
+
+    .about-description p {
+      font-size: clamp(1.1rem, 2.1vw, 1.35rem);
+      line-height: 1.65;
+      color: #e0e0e0;
+      margin-bottom: 1.6rem;
+      font-weight: 300;
+    }
+
+    .know-more-btn {
+      display: inline-block;
+      margin-top: 1.8rem;
+      padding: clamp(0.9rem, 2vw, 1.1rem) clamp(1.8rem, 4vw, 2.6rem);
+      background: transparent;
+      color: #ffffff;
+      border: 2px solid #ffffff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      border-radius: 50px;
+      transition: all 0.35s ease;
+    }
+
+    .know-more-btn:hover {
+      background: #ffffff;
+      color: #000000;
+    }
+
+    /* ====================
+       SERVICES SECTION
+    ==================== */
+    .services-section {
+      position: relative;
+      min-height: 100vh;
+      padding: 6rem 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .services-frame {
+      position: relative;
+      width: 100%;
+      max-width: 1400px;
+      height: 75vh;
+      background: url("https://res.cloudinary.com/dgxb8m8lr/image/upload/v1767167916/pexels-pixabay-221421_qhhads.jpg") center/cover;
+      border-radius: 36px;
+      overflow: hidden;
+    }
+
+    .services-frame::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.15));
+      z-index: 1;
+    }
+
+    .services-inner {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      padding: 4rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .services-title {
+      font-size: clamp(2rem, 4.2vw, 3rem);
+      font-weight: 400;
+      margin-bottom: 3rem;
+    }
+
+    .services-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem 2.5rem;
+      margin-top: auto;
+    }
+
+    .service-item {
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .service-number {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      opacity: 0.5;
+      margin-bottom: 0.6rem;
+    }
+
+    .service-item h3 {
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+    }
+
+    .service-item p {
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    .service-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 0.9rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: all 0.4s ease;
+    }
+
+    .service-item:hover .service-btn {
+      opacity: 1;
+      transform: translateY(0);
+      color: white;
+    }
+
+    /* ====================
+       LATEST RELEASES  ← MODIFIED
+    ==================== */
+    .latest-releases {
+      padding: 100px 6%;
+      background: #0e0e0e;
+    }
+
+    .releases-header h2 {
+      text-align: center;
+      font-size: clamp(2.2rem, 4.8vw, 3.4rem);
+      font-weight: 400;
+      margin-bottom: 60px;
+    }
+
+    .carousel-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2.5rem;
+    }
+
+    .carousel-viewport {
+      width: 100%;
+      max-width: 1400px;
+      overflow: hidden;
+    }
+
+    .carousel-track {
+      display: flex;
+      gap: 24px;
+      transition: transform 0.6s ease;
+    }
+
+    .release-link {
+      flex: 0 0 calc(25% - 18px);
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .release-card {
+      height: 360px;
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .release-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s;
+    }
+
+    .release-link:hover .release-card img {
+      transform: scale(1.06);
+    }
+
+    .release-overlay {
+      position: absolute;
+      inset: 0;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+    }
+
+    .release-overlay span {
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      opacity: 0.75;
+    }
+
+    .release-overlay h3 {
+      font-size: 16px;
+      margin-top: 4px;
+    }
+
+    /* New centered controls style */
+    .carousel-controls {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .nav-btn {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    /* ====================
+       FEATURED WORKS
+    ==================== */
+    .recent-works {
+      padding: 100px 6%;
+      background: #080808;
+    }
+
+    .works-header h2 {
+      text-align: center;
+      font-size: clamp(2.2rem, 4.8vw, 3.4rem);
+      font-weight: 400;
+      margin-bottom: 50px;
+    }
+
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .work-card {
+      position: relative;
+      height: 340px;
+      border-radius: 18px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.4s;
+    }
+
+    
+
+    .work-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .work-overlay {
+      position: absolute;
+      inset: 0;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+      transition: background 0.4s;
+    }
+
+    .work-card:hover .work-overlay {
+      background: rgba(0,0,0,0.85);
+    }
+
+    .tag {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.8;
+      margin-bottom: 8px;
+    }
+
+    .work-overlay h3 {
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+
+    .work-overlay p {
+      font-size: 14px;
+      opacity: 0.85;
+      margin-bottom: 12px;
+    }
+
+    .works-cta {
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    .works-cta a {
+      display: inline-block;
+      padding: 10px 22px;
+      border-radius: 40px;
+      border: 1px solid #2c2c2c00;
+      color: rgb(255, 255, 255);
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .works-cta a:hover {
+      background: #2c2c2c00;
+      border: 1px solid #ffffff;
+      color: white;
+    }
+
+    /* ====================
+       FOOTER
+    ==================== */
+    .site-footer {
+      background: #000000;
+      padding: 80px 6% 30px;
+      color: #fff;
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 1.2fr 2fr;
+      gap: 60px;
+      margin-bottom: 60px;
+    }
+
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;          /* same spacing feeling as before */
+    }
+
+    .footer-logo {
+      display: block;
+      text-decoration: none;
+    }
+
+    .logo-img {
+      height: 38px;          /* ← main control knob - adjust this value */
+      width: auto;
+      max-width: 240px;      /* prevent it from getting ridiculously wide on big screens */
+      display: block;
+    }
+
+    .footer-brand p {
+      opacity: 0.8;
+      max-width: 360px;
+    }
+
+    .footer-links {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+    }
+
+    .footer-column h4 {
+      font-size: 14px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      opacity: 0.9;
+    }
+
+    .footer-column a {
+      display: block;
+      color: white;
+      opacity: 0.7;
+      margin-bottom: 12px;
+      text-decoration: none;
+      transition: opacity 0.3s;
+    }
+
+    .footer-column a:hover { opacity: 1; }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.15);
+      padding-top: 20px;
+      text-align: center;
+      font-size: 13px;
+      opacity: 0.6;
+    }
+
+    /* Optional: if your logo has very different proportions */
+    .logo-img.tall-logo {
+      height: 48px;          /* example for taller logos */
+    }
+
+    /* For very small screens - make logo a bit smaller */
+    @media (max-width: 480px) {
+      .logo-img {
+        height: 32px;
+      }
+    }
+
+    /* ====================
+       RESPONSIVE
+    ==================== */
+    @media (max-width: 1024px) {
+      header { padding: 1.2rem 2rem; }
+      .menu-content a { font-size: 2.4rem; }
+      .services-list { grid-template-columns: repeat(2, 1fr); }
+      .release-link { flex: 0 0 calc(33.333% - 16px); }
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 2rem 1.5rem; }
+      .logo img { height: 32px; }
+      .hamburger { width: 20px; height: 13px; }
+      .menu-overlay { width: 75vw; max-width: none; }
+      .menu-content a { font-size: clamp(1.8rem, 6vw, 2.4rem); }
+      .mute-btn { bottom: 30px; right: 20px; padding: 8px 12px; font-size: 13px; }
+      .about-container { flex-direction: column; text-align: center; }
+      .services-section { padding: 4rem 1.5rem; }
+      .services-frame { height: auto; border-radius: 28px; }
+      .services-inner { padding: 2.5rem 2rem; }
+      .services-list { grid-template-columns: 1fr; }
+      .service-btn { opacity: 1; transform: none; }
+      .release-link { flex: 0 0 calc(50% - 12px); }
+      .nav-btn { width: 48px; height: 48px; font-size: 1.3rem; }
+    }
+
+    @media (max-width: 600px) {
+      .release-link { flex: 0 0 100%; }
+      .carousel-controls { gap: 1.2rem; }
+      .works-grid { grid-template-columns: 1fr; }
+      .work-card { height: 300px; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .footer-links { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .footer-links { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+</head>
+<body>
+  <div class="main-wrapper">
+    <!-- Header -->
+    <header>
+      <div class="logo">
+        <a href="/" aria-label="Refresh page">
+          <img src="https://res.cloudinary.com/dgxb8m8lr/image/upload/v1767191543/Logo_BeachBeats_hvthta.png" alt="Beach Beats Logo">
+        </a>
+      </div>
+      <div class="hamburger" id="hamburger"><span></span> <span></span> <span></span></div>
+    </header>
+
+    <!-- Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay">
+      <nav class="menu-content">
+        <a href="bbrecords.html">BB Records</a>
+        <a href="bbsmiles.html">BB Smiles</a>
+        <a href="eacheats.html">Each Eats</a>
+        <a href="bbfashion.html">BB Fashion</a>
+        <a href="contacts">RR Pure Solutions</a>
+      </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+      <div class="hero-background">
+        <video autoplay muted loop playsinline preload="auto" class="hero-video">
+          <source src="https://res.cloudinary.com/dgxb8m8lr/video/upload/v1767164613/1231_4_leogqp.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <audio id="landing-audio" src="https://res.cloudinary.com/dgxb8m8lr/video/upload/v1766828062/video-2025-12-26-17-16-30-n1oj5f_prablt.mp3" loop></audio>
+      <button id="mute-btn" class="mute-btn">🔊 Music On</button>
+      <div class="scroll-indicator">
+        <div class="mouse">
+          <span class="wheel"></span>
+        </div>
+        <span class="scroll-text">Scroll</span>
+      </div>
+      <div class="hero-card">
+        <h1 class="hero-title" id="heroTitle">BEACH BEATS</h1>
+        <h2 class="hero-subtitle" id="heroSubtitle">Where nature meets rhythm.</h2>
+      </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="about-bucket-style dark-version">
+      <div class="about-container">
+        <div class="about-statement">
+          <h1>WE ARE<br>BEACH BEATS</h1>
+        </div>
+
+        <div class="about-description">
+          <p>Born by the shores, Beach Beats grew from a creative idea into a collective of independent brands.</p>
+          <p>We bring music, celebrations, social work, fashion, and consulting together under one roof — building work that inspires, connects, and creates real impact.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services-section">
+      <div class="services-frame">
+        <div class="services-inner">
+          <h2 class="services-title">Our Services</h2>
+          <div class="services-list">
+            <div class="service-item">
+              <span class="service-number">01</span>
+              <h3>Beach Beats Records</h3>
+              <p>Music production and creative sound solutions</p>
+              <a href="#" class="service-btn">View <span class="arrow">→</span></a>
+            </div>
+            <div class="service-item">
+              <span class="service-number">02</span>
+              <h3>BB Smiles</h3>
+              <p>Celebrations, surprises, and memorable moments</p>
+              <a href="#" class="service-btn">View <span class="arrow">→</span></a>
+            </div>
+            <div class="service-item">
+              <span class="service-number">03</span>
+              <h3>Beach Beats Fashion</h3>
+              <p>Immersive, performance-driven Contemporary clothing and style</p>
+              <a href="#" class="service-btn">View <span class="arrow">→</span></a>
+            </div>
+            <div class="service-item">
+              <span class="service-number">04</span>
+              <h3>RR Pure Solutions</h3>
+              <p>Strategic consulting and problem solving</p>
+              <a href="#" class="service-btn">View <span class="arrow">→</span></a>
+            </div>
+            <div class="service-item">
+              <span class="service-number">05</span>
+              <h3>Each Eats</h3>
+              <p>Food, care, and community support</p>
+              <a href="#" class="service-btn">View <span class="arrow">→</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Latest Releases - MODIFIED LAYOUT -->
+    <section id="latest-releases" class="latest-releases">
+      <div class="releases-header">
+        <h2>Latest Releases</h2>
+      </div>
+      <div class="carousel-wrapper">
+        <div class="carousel-viewport">
+          <div class="carousel-track">
+            <a class="release-link" data-type="Single" data-youtube="https://youtu.be/JZorUrZcPYQ?si=OObY69_1I8rj__W4" target="_blank" rel="noopener">
+              <div class="release-card">
+                <img alt="">
+                <div class="release-overlay">
+                  <span></span>
+                  <h3></h3>
+                </div>
+              </div>
+            </a>
+            <a class="release-link" data-youtube="https://youtu.be/_UW1nSXjLqQ?si=BalV74PCR8HC5DHR" target="_blank" rel="noopener">
+              <div class="release-card">
+                <img alt="">
+                <div class="release-overlay">
+                  <span></span>
+                  <h3></h3>
+                </div>
+              </div>
+            </a>
+            <a class="release-link" data-youtube="https://youtu.be/rwa1PJ0e2PQ?si=wispav1s-I1wekEj" target="_blank" rel="noopener">
+              <div class="release-card">
+                <img alt="">
+                <div class="release-overlay">
+                  <span></span>
+                  <h3></h3>
+                </div>
+              </div>
+            </a>
+            <a class="release-link" data-youtube="https://youtu.be/FEJdoIMc4xg?si=9OHZPUC27u5GoDql" target="_blank" rel="noopener">
+              <div class="release-card">
+                <img alt="">
+                <div class="release-overlay">
+                  <span></span>
+                  <h3></h3>
+                </div>
+              </div>
+            </a>
+            <a class="release-link" data-youtube="https://youtu.be/g0f0oaTGIfo?si=xCmF3pG9I5Jx6gIF" target="_blank" rel="noopener">
+              <div class="release-card">
+                <img alt="">
+                <div class="release-overlay">
+                  <span></span>
+                  <h3></h3>
+                </div>
+              </div>
+            </a>
+            <a class="release-link" data-youtube="https://youtu.be/LyUiwuta1ws?si=VS2lVxtzhiN9dVzM" target="_blank" rel="noopener">
+              <div class="release-card">
+                <img alt="">
+                <div class="release-overlay">
+                  <span></span>
+                  <h3></h3>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Centered controls below -->
+        <div id=Featured-Work class="carousel-controls">
+          <button class="nav-btn prev">←</button>
+          <button class="nav-btn next">→</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recent Works -->
+    <section class="recent-works">
+      <div class="works-header">
+        <h2>Featured Works</h2>
+      </div>
+      <div class="works-grid">
+        <div class="work-card records">
+          <img src="https://res.cloudinary.com/dgxb8m8lr/image/upload/v1768669044/475918631_18303215179230482_2124248919192203329_n_verjwl.jpg" alt="Birthday Surprise">
+          <div class="work-overlay">
+            
+            <h3>Birthday Surprise</h3>
+            <p>Celebrated uncle's 58th bday.</p>
+            <span class="cta">View →</span>
+          </div>
+        </div>
+        <div class="work-card celebrations">
+          <img src="https://res.cloudinary.com/dgxb8m8lr/image/upload/v1768669155/153952-Jayaram-Sujani-Highlights-111_edited_x2zxbi.jpg" alt="Surprise Wedding Anniversary">
+          <div class="work-overlay">
+           
+            <h3>Celebrations</h3>
+            <p>We shocked them on anniversary</p>
+            <span class="cta">View →</span>
+          </div>
+        </div>
+        <div class="work-card community">
+          <img src="https://res.cloudinary.com/dgxb8m8lr/image/upload/v1768669701/15400388691_f3d75a830b_b_rbfqg0.jpg" alt="Feeding the Homeless">
+          <div class="work-overlay">
+            
+            <h3>Feeding them</h3>
+            <p>Fed 250 homeless children</p>
+            <span class="cta">View →</span>
+          </div>
+        </div>
+        <div class="work-card community">
+          <img src="https://res.cloudinary.com/dgxb8m8lr/image/upload/v1768669808/little-boy-s-hand-helping-adult-plant-small-tree-garden_104677-52_yq0rcs.avif" alt="Feeding the Homeless">
+          <div class="work-overlay">
+            
+            <h3>Going Green</h3>
+            <p>Planted 100 trees in the community</p>
+            <span class="cta">View →</span>
+          </div>
+        </div>
+      </div>
+      <div class="works-cta">
+        <a href="#">Explore All </a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <a href="/" class="footer-logo">
+            <img src="https://res.cloudinary.com/dgxb8m8lr/image/upload/v1767191543/Logo_BeachBeats_hvthta.png" alt="Beach Beats" class="logo-img">
+          </a>
+          <p>Music, celebrations, community impact, fashion, and consulting — built with purpose and long-term value.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-column">
+            <h4>Explore</h4>
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#latest-releases">Latest Releases</a>
+            <a href="#Featured-Work">Featured Works</a>
+          </div>
+          <div class="footer-column">
+            <h4>Brands</h4>
+            <a href="#">Home</a>
+            <a href="#">BB Records</a>
+            <a href="#">BB Smiles</a>
+            <a href="#">BB Fashion</a>
+            <a href="#">Each Eats</a>
+            <a href="#">RR Pure Solutions</a>
+            <a href="#">Contact Us</a>
+          </div>
+          <div class="footer-column">
+            <h4>Connect</h4>
+            <a href="https://www.instagram.com/_beach_beats/">Instagram</a>
+            <a href="https://www.youtube.com/@BEACHBEATSENTERTAINMENTS">YouTube</a>
+            <a href="#">LinkedIn</a>
+            <a href="mailto:beachbeats2025@gmail.com">Email Us</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Beach Beats • Inspired by the ocean</span>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      /* Hamburger Menu */
+      const hamburger = document.getElementById('hamburger');
+      const menuOverlay = document.getElementById('menuOverlay');
+
+      hamburger?.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        menuOverlay.classList.toggle('active');
+      });
+
+      document.querySelectorAll('.menu-content a').forEach(link => {
+        link.addEventListener('click', () => {
+          hamburger.classList.remove('active');
+          menuOverlay.classList.remove('active');
+        });
+      });
+
+      /* Audio Unlock */
+      const audio = document.getElementById('landing-audio');
+      const btn = document.getElementById('mute-btn');
+      let isPlaying = false;
+
+      btn?.addEventListener('click', () => {
+        if (!isPlaying) {
+          audio?.play();
+          btn.textContent = '🔇 Music Off';
+          isPlaying = true;
+        } else {
+          audio?.pause();
+          btn.textContent = '🔊 Music On';
+          isPlaying = false;
+        }
+      });
+
+      /* YouTube Card Auto Population */
+      function getYouTubeID(url) {
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        return match && match[2].length === 11 ? match[2] : null;
+      }
+
+      document.querySelectorAll(".release-link").forEach(card => {
+        const url = card.dataset.youtube;
+        const type = card.dataset.type || "";
+        const videoId = getYouTubeID(url);
+        if (!videoId) return;
+
+        const img = card.querySelector("img");
+        const titleEl = card.querySelector("h3");
+        const typeEl = card.querySelector("span");
+
+        img.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+        typeEl.textContent = type;
+
+        fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`)
+          .then(res => res.json())
+          .then(data => titleEl.textContent = data.title)
+          .catch(() => titleEl.textContent = "YouTube Release");
+
+        card.href = `https://www.youtube.com/watch?v=${videoId}`;
+      });
+
+      /* Carousel — Loop + Autoplay */
+      const track = document.querySelector(".carousel-track");
+      if (!track) return;
+
+      const prevBtn = document.querySelector(".nav-btn.prev");
+      const nextBtn = document.querySelector(".nav-btn.next");
+      const wrapper = document.querySelector(".carousel-wrapper");
+
+      let index = 0;
+      let isTransitioning = false;
+      let autoplayTimer = null;
+      const GAP = 24;
+      const AUTOPLAY_DELAY = 1500;
+
+      function getVisibleCards() {
+        if (window.innerWidth < 600) return 1;
+        if (window.innerWidth < 900) return 2;
+        if (window.innerWidth < 1200) return 3;
+        return 4;
+      }
+
+      function setupCarousel() {
+        track.style.transition = "none";
+
+        [...track.children].forEach(c => {
+          if (c.dataset.clone) c.remove();
+        });
+
+        const cards = [...track.children];
+        const visible = getVisibleCards();
+
+        const head = cards.slice(-visible).map(c => {
+          const clone = c.cloneNode(true);
+          clone.dataset.clone = "true";
+          return clone;
+        });
+
+        const tail = cards.slice(0, visible).map(c => {
+          const clone = c.cloneNode(true);
+          clone.dataset.clone = "true";
+          return clone;
+        });
+
+        head.forEach(c => track.prepend(c));
+        tail.forEach(c => track.append(c));
+
+        const cardWidth = track.children[0].offsetWidth + GAP;
+        index = visible;
+        track.style.transform = `translateX(-${index * cardWidth}px)`;
+      }
+
+      function moveTo(newIndex) {
+        if (isTransitioning) return;
+        isTransitioning = true;
+
+        const cardWidth = track.children[0].offsetWidth + GAP;
+        track.style.transition = "transform 0.6s ease";
+        index = newIndex;
+        track.style.transform = `translateX(-${index * cardWidth}px)`;
+      }
+
+      track.addEventListener("transitionend", () => {
+        const visible = getVisibleCards();
+        const total = track.children.length;
+        const cardWidth = track.children[0].offsetWidth + GAP;
+
+        track.style.transition = "none";
+
+        if (index >= total - visible) {
+          index = visible;
+          track.style.transform = `translateX(-${index * cardWidth}px)`;
+        }
+
+        if (index < visible) {
+          index = total - visible * 2;
+          track.style.transform = `translateX(-${index * cardWidth}px)`;
+        }
+
+        isTransitioning = false;
+      });
+
+      nextBtn?.addEventListener("click", () => moveTo(index + 1));
+      prevBtn?.addEventListener("click", () => moveTo(index - 1));
+
+      function startAutoplay() {
+        stopAutoplay();
+        autoplayTimer = setInterval(() => moveTo(index + 1), AUTOPLAY_DELAY);
+      }
+
+      function stopAutoplay() {
+        if (autoplayTimer) clearInterval(autoplayTimer);
+      }
+
+      wrapper?.addEventListener("mouseenter", stopAutoplay);
+      wrapper?.addEventListener("mouseleave", startAutoplay);
+
+      window.addEventListener("resize", setupCarousel);
+
+      setupCarousel();
+      startAutoplay();
+    });
+  </script>
+</body>
+</html>
