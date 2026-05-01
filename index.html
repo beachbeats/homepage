@@ -804,7 +804,9 @@
           Your browser does not support the video tag.
         </video>
       </div>
-      <audio id="landing-audio" src="https://res.cloudinary.com/dgxb8m8lr/video/upload/v1766828062/video-2025-12-26-17-16-30-n1oj5f_prablt.mp3" loop></audio>
+      <audio id="landing-audio" preload="auto" loop>
+  <source src="https://res.cloudinary.com/dgxb8m8lr/video/upload/v1766828062/video-2025-12-26-17-16-30-n1oj5f_prablt.mp3" type="audio/mpeg">
+</audio> loop></audio>
       <button id="mute-btn" class="mute-btn">🔊 Music On</button>
       <div class="scroll-indicator">
         <div class="mouse">
@@ -1056,20 +1058,24 @@
 
       /* Audio Unlock */
       const audio = document.getElementById('landing-audio');
-      const btn = document.getElementById('mute-btn');
-      let isPlaying = false;
+const btn = document.getElementById('mute-btn');
+let isPlaying = false;
 
-      btn?.addEventListener('click', () => {
-        if (!isPlaying) {
-          audio?.play();
-          btn.textContent = '🔇 Music Off';
-          isPlaying = true;
-        } else {
-          audio?.pause();
-          btn.textContent = '🔊 Music On';
-          isPlaying = false;
-        }
-      });
+btn?.addEventListener('click', async () => {
+  try {
+    if (!isPlaying) {
+      await audio.play(); // IMPORTANT
+      btn.textContent = '🔇 Music Off';
+      isPlaying = true;
+    } else {
+      audio.pause();
+      btn.textContent = '🔊 Music On';
+      isPlaying = false;
+    }
+  } catch (err) {
+    console.error("Audio play failed:", err);
+  }
+});
 
       /* YouTube Card Auto Population */
       function getYouTubeID(url) {
