@@ -282,7 +282,7 @@
         <a href="bbsmiles.html">BB Smiles</a>
         <a href="eacheats.html">Each Eats</a>
         <a href="bbfashion.html">BB Fashion</a>
-            <a href="contacts.html">RR Pure Solutions</a>
+        <a href="contacts.html">Contact Us</a>
       </nav>
     </div>
 
@@ -336,44 +336,51 @@
 
       <!-- Right: Contact Form (no subject field) -->
       <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 md:p-12">
-        <form class="space-y-7">
-          <div>
-            <label class="block text-sm uppercase tracking-wider text-white/70 mb-3">Name</label>
-            <input 
-              type="text" 
-              class="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-bb-gold/60 transition text-white placeholder-white/40 text-base"
-              placeholder="Your name"
-              required
-            />
-          </div>
+        <form 
+  action="https://formspree.io/f/xpqbwrkn"
+  method="POST"
+  class="space-y-7"
+>
+  <div>
+    <label class="block text-sm uppercase tracking-wider text-white/70 mb-3">Name</label>
+    <input 
+      type="text" 
+      name="name"
+      class="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-bb-gold/60 transition text-white placeholder-white/40 text-base"
+      placeholder="Your name"
+      required
+    />
+  </div>
 
-          <div>
-            <label class="block text-sm uppercase tracking-wider text-white/70 mb-3">Email</label>
-            <input 
-              type="email" 
-              class="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-bb-gold/60 transition text-white placeholder-white/40 text-base"
-              placeholder="you@example.com"
-              required
-            />
-          </div>
+  <div>
+    <label class="block text-sm uppercase tracking-wider text-white/70 mb-3">Email</label>
+    <input 
+      type="email" 
+      name="email"
+      class="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-bb-gold/60 transition text-white placeholder-white/40 text-base"
+      placeholder="you@example.com"
+      required
+    />
+  </div>
 
-          <div>
-            <label class="block text-sm uppercase tracking-wider text-white/70 mb-3">Message</label>
-            <textarea 
-              rows="8"
-              class="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-bb-gold/60 transition text-white placeholder-white/40 resize-none text-base"
-              placeholder="Tell us what's on your mind..."
-              required
-            ></textarea>
-          </div>
+  <div>
+    <label class="block text-sm uppercase tracking-wider text-white/70 mb-3">Message</label>
+    <textarea 
+      name="message"
+      rows="8"
+      class="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-bb-gold/60 transition text-white placeholder-white/40 resize-none text-base"
+      placeholder="Tell us what's on your mind..."
+      required
+    ></textarea>
+  </div>
 
-          <button 
-            type="submit"
-            class="w-full py-5 bg-bb-gold text-black font-medium uppercase tracking-wider rounded-xl hover:bg-yellow-400 "
-          >
-            Send Message
-          </button>
-        </form>
+  <button 
+    type="submit"
+    class="w-full py-5 bg-bb-gold text-black font-medium uppercase tracking-wider rounded-xl hover:bg-yellow-400"
+  >
+    Send Message
+  </button>
+</form>
       </div>
     </div>
   </section>
